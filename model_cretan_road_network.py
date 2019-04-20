@@ -7,10 +7,10 @@ input network with other well known complex networks as Erdos-Renyi and Small-Wo
 @author: Michail Liarmakopoulos
 
 Example run:
-	python3 model_cretan_road_network.py type_of_network
+    python3 model_cretan_road_network.py type_of_network
 
 Prerequisities:
-	networkx, matplotlib
+    networkx, matplotlib
 """
 
 import networkx as nx
@@ -51,10 +51,10 @@ def draw_network(G, type_of_network=None):
         nx.draw_shell(G, with_labels = True)
     else:
         nx.draw(G, with_labels = True)
-    plt.savefig("network_" + str(type_of_network) + ".png")
+    plt.savefig("images/" + "network_" + str(type_of_network) + ".png")
 
 def calculation_of_centrality_measures(G):
-	DC = nx.algorithms.degree_centrality(G)
+    DC = nx.algorithms.degree_centrality(G)
     CC = nx.algorithms.closeness_centrality(G)
     BC = nx.algorithms.betweenness_centrality(G)
     EC = nx.algorithms.eigenvector_centrality(G)
