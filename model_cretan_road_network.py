@@ -62,21 +62,25 @@ def calculation_of_centrality_measures(G):
     PC = nx.algorithms.pagerank(G)
     return (DC, CC, BC, EC, HC, PC)
 
+def print_network_options():
+    print("Please insert type of network from the below:")
+    print("planar")
+    print("circular")
+    print("random")
+    print("spectral")
+    print("kamada_kawai")
+    print("spring")
+    print("shell")
+    print("Type: python3 model_cretan_road_network.py type_of_network")
+
 def main():
     try:
         type_of_network = sys.argv[1]
     except IndexError:
-        print("Please insert type of network from the below:")
-        print("planar")
-        print("circular")
-        print("random")
-        print("spectral")
-        print("kamada_kawai")
-        print("spring")
-        print("shell")
-        print("Type: python3 model_cretan_road_network.py type_of_network")
+        print_network_options()        
         return [0, "IndexError"]
 
+    # Parse undirected edges to list of tuples
     list_of_edges = parse_edges("data/crt_edges_wo_weights.txt")
 
     # Creation of the network
@@ -92,7 +96,7 @@ def main():
     print(nx.info(G))
 
     # Draw network
-    draw_network(G, type_of_network)
+    #draw_network(G, type_of_network)
 
     N, K = G.order(), G.size()
     avg_deg = float(K)/N
