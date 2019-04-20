@@ -36,7 +36,7 @@ def draw_network(G, type_of_network=None):
         nx.draw_shell(G, with_labels = True)
     else:
         nx.draw(G, with_labels = True)
-    plt.savefig("network_" + str(type_of_network) + ".jpg")
+    plt.savefig("network_" + str(type_of_network) + ".png")
 
 def main():
     try:
