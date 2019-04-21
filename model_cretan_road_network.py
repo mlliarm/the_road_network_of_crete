@@ -103,6 +103,20 @@ def draw_network(G, output_name, type_of_network=None):
     plt.savefig("images/" + output_name + "network_" + str(type_of_network) + ".png")
     plt.close()
 
+def draw_ego_hub(G, output_name):
+    # From https://networkx.github.io/documentation/latest/auto_examples/drawing/plot_ego_graph.html?highlight=hub
+    node_and_degree = G.degree()
+    (largest_hub, degree) = sorted(node_and_degree, key=itemgetter(1))[-1]
+    # Create ego graph of main hub
+    hub_ego = nx.ego_graph(G, largest_hub)
+    # Draw graph
+    pos = nx.spring_layout(hub_ego)
+    nx.draw(hub_ego, pos, node_color='b', node_size=300, with_labels=True)
+    # Draw ego as large and red
+    nx.draw_networkx_nodes(hub_ego, pos, nodelist=[largest_hub], node_size=300, node_color='r')
+    plt.savefig("images/" + output_name + "ego_hub.png")
+    plt.close()
+
 def calculation_of_centrality_measures(G):
     """
     Calculates the centrality measures for a given graph G.
@@ -284,12 +298,7 @@ def main():
     print("Crete diameter: ",diameter)
 
     # Find the biggest hub
-    # From here: https://networkx.github.io/documentation/latest/auto_examples/drawing/plot_ego_graph.html?highlight=hub
-    node_and_degree_crete = G.degree()
-    (largest_hub_crete, degree_crete) = sorted(node_and_degree_crete, key=itemgetter(1))[-1]
-    # Create ego graph of main
-    hub_ego_crete = nx.ego_graph(G, largest_hub_crete)
-    draw_network(hub_ego_crete, "Crete's hub_", "kamada_kawai")
+    draw_ego_hub(G, "crete_")    
 
     # Creation of some random graphs
     # Erdos Renyi
