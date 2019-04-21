@@ -219,8 +219,8 @@ def plot_degree_distribution(G,output_name):
     items = sorted(degs.items())
     fig = plt.figure()
     ax = fig.add_subplot (111)
-    ax.plot([k for (k,v) in items], [v for (k,v) in  items ])
-    #ax.set_xscale('log')
+    ax.plot([k for (k,v) in items], [v for (k,v) in  items ],'bo--')
+    ax.set_xscale('log')
     ax.set_yscale('log')
     plt.title(output_name + "Degree  Distribution")
     fig.savefig("images/" + output_name + "degree_distribution.png")
@@ -288,7 +288,7 @@ def main():
     print(dh_ER)
     degrees_ER = degrees_per_node(erdos_renyi_G1)
     print(degrees_ER)
-    plot_degree_distribution(G, "Erdos-Renyi_0.1")
+    plot_degree_distribution(erdos_renyi_G1, "Erdos-Renyi_0.1")
     draw_adjacency_matrix(erdos_renyi_G1, "Erdos-Renyi_0.1")
 
     erdos_renyi_G2 = nx.erdos_renyi_graph(68,0.5)
@@ -299,8 +299,19 @@ def main():
     print(dh_ER2)
     degrees_ER2 = degrees_per_node(erdos_renyi_G2)
     print(degrees_ER2)
-    plot_degree_distribution(G, "Erdos-Renyi_0.5")
+    plot_degree_distribution(erdos_renyi_G2, "Erdos-Renyi_0.5")
     draw_adjacency_matrix(erdos_renyi_G2, "Erdos-Renyi_0.5")
+
+    # Scale free graph
+    scale_free_G = nx.scale_free_graph(68)
+    draw_network(scale_free_G, "scale_free_", "kamada_kawai")
+    dh_scalefree = nx.degree_histogram(scale_free_G)
+    create_histogram(dh_scalefree, "scale free_")
+    print(dh_scalefree)
+    degrees_scalefree = degrees_per_node(scale_free_G)
+    print(degrees_scalefree)
+    plot_degree_distribution(scale_free_G, "scale_free_")
+    draw_adjacency_matrix(scale_free_G, "scale_free_")
 
 if __name__ == "__main__":
     main()
