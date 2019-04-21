@@ -157,7 +157,7 @@ def calculate_average_degree(G):
     return avg_deg
 
 
-def draw_adjacency_matrix(G, node_order=None, partitions=[], colors=[]):
+def draw_adjacency_matrix(G, output_name, node_order=None, partitions=[], colors=[]):
     """
     From : http://sociograph.blogspot.com/2012/11/visualizing-adjacency-matrices-in-python.html
     - G is a netorkx graph
@@ -192,10 +192,13 @@ def draw_adjacency_matrix(G, node_order=None, partitions=[], colors=[]):
                                           edgecolor=color,
                                           linewidth="1"))
             current_idx += len(module)
-    plt.savefig("images/adjacency_matrix.png")
+    plt.savefig("images/" + output_name + "_adjacency_matrix.png")
     plt.close()
 
 def create_histogram(G_histogram, output_name):
+    """
+    Inspired by: https://www3.nd.edu/~kogge/courses/cse60742-Fall2018/Public/StudentWork/Paradigms/NetworkX-Sikdar.pdf
+    """
     xs = range(len(G_histogram))
     plt.scatter(xs, G_histogram)
     plt.xlabel('degree')
@@ -270,7 +273,7 @@ def main():
 
     # Adjacency matrix
     #adjacency_mat = nx.adjacency_matrix(G).todense()
-    draw_adjacency_matrix(G)
+    draw_adjacency_matrix(G, "Crete")
 
     # Degree distribution
     plot_degree_distribution(G, "Crete")
@@ -286,6 +289,7 @@ def main():
     degrees_ER = degrees_per_node(erdos_renyi_G1)
     print(degrees_ER)
     plot_degree_distribution(G, "Erdos-Renyi_0.1")
+    draw_adjacency_matrix(erdos_renyi_G1, "Erdos-Renyi_0.1")
 
     erdos_renyi_G2 = nx.erdos_renyi_graph(68,0.5)
     draw_network(erdos_renyi_G2, "erdos_renyi_0.5_","circular")
@@ -296,6 +300,7 @@ def main():
     degrees_ER2 = degrees_per_node(erdos_renyi_G2)
     print(degrees_ER2)
     plot_degree_distribution(G, "Erdos-Renyi_0.5")
+    draw_adjacency_matrix(erdos_renyi_G2, "Erdos-Renyi_0.5")
 
 if __name__ == "__main__":
     main()
