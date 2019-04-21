@@ -71,12 +71,13 @@ def create_network_from_edges(list_of_edges):
     G.add_edges_from(list_of_edges)
     return G
 
-def draw_network(G, type_of_network=None):
+def draw_network(G, output_name, type_of_network=None):
     """
     Creates a drawing of the network, according to the selected type of network.
 
     Args:
         G (graph): the input graph
+        output_name (string): the output name
         type_of_network (string): the type of network
 
     Returns:
@@ -98,7 +99,8 @@ def draw_network(G, type_of_network=None):
         nx.draw_shell(G, with_labels = True)
     else:
         nx.draw(G, with_labels = True)
-    plt.savefig("images/" + "network_" + str(type_of_network) + ".png")
+    plt.savefig("images/" + output_name + "network_" + str(type_of_network) + ".png")
+    plt.close()
 
 def calculation_of_centrality_measures(G):
     """
@@ -182,6 +184,7 @@ def draw_adjacency_matrix(G, node_order=None, partitions=[], colors=[]):
                                           linewidth="1"))
             current_idx += len(module)
     plt.savefig("images/adjacency_matrix.png")
+    plt.close()
 
 def main():
     try:
@@ -210,7 +213,7 @@ def main():
     print(nx.info(G))
 
     # Draw network
-    #draw_network(G, type_of_network)
+    #draw_network(G, "crete", type_of_network)
 
     N, K = G.order(), G.size()
     avg_deg = float(K)/N
@@ -234,6 +237,10 @@ def main():
     # Adjacency matrix
     #adjacency_mat = nx.adjacency_matrix(G).todense()
     draw_adjacency_matrix(G)
+
+    # Creation of some random graphs
+    erdos_renyi_G = nx.erdos_renyi_graph(68,0.1)
+    draw_network(erdos_renyi_G, "erdos_renyi_","kamada_kawai")
 
 if __name__ == "__main__":
     main()
