@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 from matplotlib import pyplot, patches
 import scipy as sp
 import numpy as np
+from operator import itemgetter
 import sys
 
 def parse_edges(input_filename):
@@ -281,6 +282,13 @@ def main():
     # Diameter
     diameter = nx.algorithms.distance_measures.diameter(G)
     print("Crete diameter: ",diameter)
+
+    # Find the biggest hub
+    node_and_degree_crete = G.degree()
+    (largest_hub_crete, degree_crete) = sorted(node_and_degree_crete, key=itemgetter(1))[-1]
+    # Create ego graph of main
+    hub_ego_crete = nx.ego_graph(G, largest_hub_crete)
+    draw_network(hub_ego_crete, "Crete's hub_", "kamada_kawai")
 
     # Creation of some random graphs
     # Erdos Renyi
