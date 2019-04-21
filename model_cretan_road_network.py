@@ -148,6 +148,15 @@ def degrees_per_node(G):
     return nx.degree(G)
 
 
+def calculate_average_degree(G):
+    N, K = G.order(), G.size()
+    avg_deg = float(K)/N
+    print("Nodes:",N)
+    print("Edges:",K)
+    print("Average degree:",avg_deg)
+    return avg_deg
+
+
 def draw_adjacency_matrix(G, node_order=None, partitions=[], colors=[]):
     """
     From : http://sociograph.blogspot.com/2012/11/visualizing-adjacency-matrices-in-python.html
@@ -213,14 +222,10 @@ def main():
     print(nx.info(G))
 
     # Draw network
-    #draw_network(G, "crete", type_of_network)
+    #draw_network(G, "crete", type_of_network)    
 
-    N, K = G.order(), G.size()
-    avg_deg = float(K)/N
-
-    print("Nodes:",N)
-    print("Edges:",K)
-    print("Average degree:",avg_deg)
+    # Average degree
+    avg_deg = calculate_average_degree(G)
 
     # Calculate the density of the graph
     density = nx.density(G)
@@ -239,8 +244,22 @@ def main():
     draw_adjacency_matrix(G)
 
     # Creation of some random graphs
-    erdos_renyi_G = nx.erdos_renyi_graph(68,0.1)
-    draw_network(erdos_renyi_G, "erdos_renyi_","kamada_kawai")
+    # Erdos Renyi
+    erdos_renyi_G1 = nx.erdos_renyi_graph(68,0.1)
+    draw_network(erdos_renyi_G1, "erdos_renyi_0.1_","circular")
+    avg_deg_ER = calculate_average_degree(erdos_renyi_G1)
+    dh_ER = nx.degree_histogram(erdos_renyi_G1)
+    print(dh_ER)
+    degrees_ER = degrees_per_node(erdos_renyi_G1)
+    print(degrees_ER)
+
+    erdos_renyi_G2 = nx.erdos_renyi_graph(68,0.5)
+    draw_network(erdos_renyi_G2, "erdos_renyi_0.5_","circular")
+    avg_deg_ER = calculate_average_degree(erdos_renyi_G2)
+    dh_ER = nx.degree_histogram(erdos_renyi_G2)
+    print(dh_ER)
+    degrees_ER = degrees_per_node(erdos_renyi_G2)
+    print(degrees_ER)
 
 if __name__ == "__main__":
     main()
