@@ -203,6 +203,26 @@ def create_histogram(G_histogram, output_name):
     plt.savefig("images/" + output_name + "histogram.png") 
     plt.close()
 
+def plot_degree_distribution(G,output_name):
+    """
+    Taken from: http://snap.stanford.edu/class/cs224w-2012/nx_tutorial.pdf
+    """
+    degs = {}
+    for n in G.nodes():
+        deg = G.degree(n)
+        if deg not in degs:
+            degs[deg] = 0
+        degs[deg] += 1
+    items = sorted(degs.items())
+    fig = plt.figure()
+    ax = fig.add_subplot (111)
+    ax.plot([k for (k,v) in items], [v for (k,v) in  items ])
+    #ax.set_xscale('log')
+    ax.set_yscale('log')
+    plt.title(output_name + "Degree  Distribution")
+    fig.savefig("images/" + output_name + "degree_distribution.png")
+    plt.close()
+
 def main():
     try:
         type_of_network = sys.argv[1]
@@ -252,6 +272,9 @@ def main():
     #adjacency_mat = nx.adjacency_matrix(G).todense()
     draw_adjacency_matrix(G)
 
+    # Degree distribution
+    plot_degree_distribution(G, "Crete")
+
     # Creation of some random graphs
     # Erdos Renyi
     erdos_renyi_G1 = nx.erdos_renyi_graph(68,0.1)
@@ -262,6 +285,7 @@ def main():
     print(dh_ER)
     degrees_ER = degrees_per_node(erdos_renyi_G1)
     print(degrees_ER)
+    plot_degree_distribution(G, "Erdos-Renyi_0.1")
 
     erdos_renyi_G2 = nx.erdos_renyi_graph(68,0.5)
     draw_network(erdos_renyi_G2, "erdos_renyi_0.5_","circular")
@@ -271,6 +295,7 @@ def main():
     print(dh_ER2)
     degrees_ER2 = degrees_per_node(erdos_renyi_G2)
     print(degrees_ER2)
+    plot_degree_distribution(G, "Erdos-Renyi_0.5")
 
 if __name__ == "__main__":
     main()
