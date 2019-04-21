@@ -264,12 +264,12 @@ def main():
 
     # Degree histogram
     dh = nx.degree_histogram(G)
-    print("Degree histogram:",dh)
+    #print("Degree histogram:",dh)
     create_histogram(dh, "crete_")
 
     # Degrees per node
     degrees = degrees_per_node(G)
-    print("Degrees per node:",degrees)
+    #print("Degrees per node:",degrees)
 
     # Adjacency matrix
     #adjacency_mat = nx.adjacency_matrix(G).todense()
@@ -278,6 +278,10 @@ def main():
     # Degree distribution
     plot_degree_distribution(G, "Crete")
 
+    # Diameter
+    diameter = nx.algorithms.distance_measures.diameter(G)
+    print("Crete diameter: ",diameter)
+
     # Creation of some random graphs
     # Erdos Renyi
     erdos_renyi_G1 = nx.erdos_renyi_graph(68,0.1)
@@ -285,33 +289,42 @@ def main():
     avg_deg_ER = calculate_average_degree(erdos_renyi_G1)
     dh_ER = nx.degree_histogram(erdos_renyi_G1)
     create_histogram(dh_ER, "erdos_renyi_0.1_")
-    print(dh_ER)
+    #print(dh_ER)
     degrees_ER = degrees_per_node(erdos_renyi_G1)
-    print(degrees_ER)
+    #print(degrees_ER)
     plot_degree_distribution(erdos_renyi_G1, "Erdos-Renyi_0.1")
     draw_adjacency_matrix(erdos_renyi_G1, "Erdos-Renyi_0.1")
+    # Diameter
+    diameter_ER1 = nx.algorithms.distance_measures.diameter(erdos_renyi_G1)
+    print("Erdos-Renyi_0.1 diameter: ",diameter_ER1)
 
     erdos_renyi_G2 = nx.erdos_renyi_graph(68,0.5)
     draw_network(erdos_renyi_G2, "erdos_renyi_0.5_","circular")
     avg_deg_ER2 = calculate_average_degree(erdos_renyi_G2)
     dh_ER2 = nx.degree_histogram(erdos_renyi_G2)
     create_histogram(dh_ER2, "erdos_renyi_0.5_")
-    print(dh_ER2)
+    #print(dh_ER2)
     degrees_ER2 = degrees_per_node(erdos_renyi_G2)
-    print(degrees_ER2)
+    #print(degrees_ER2)
     plot_degree_distribution(erdos_renyi_G2, "Erdos-Renyi_0.5")
     draw_adjacency_matrix(erdos_renyi_G2, "Erdos-Renyi_0.5")
+    # Diameter
+    diameter_ER2 = nx.algorithms.distance_measures.diameter(erdos_renyi_G2)
+    print("Erdos-Renyi_0.5 diameter: ",diameter_ER2)
 
     # Scale free graph
     scale_free_G = nx.scale_free_graph(68)
     draw_network(scale_free_G, "scale_free_", "kamada_kawai")
     dh_scalefree = nx.degree_histogram(scale_free_G)
     create_histogram(dh_scalefree, "scale free_")
-    print(dh_scalefree)
+    #print(dh_scalefree)
     degrees_scalefree = degrees_per_node(scale_free_G)
-    print(degrees_scalefree)
+    #print(degrees_scalefree)
     plot_degree_distribution(scale_free_G, "scale_free_")
     draw_adjacency_matrix(scale_free_G, "scale_free_")
+    # Diameter
+    # diameter_scalefree = nx.algorithms.distance_measures.diameter(scale_free_G)
+    # print("Scalefree network diameter: ",diameter_scalefree)
 
 if __name__ == "__main__":
     main()
