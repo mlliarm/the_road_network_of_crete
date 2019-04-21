@@ -4,17 +4,20 @@ analyse its statistical properties, calculate the most important centrality meas
 plot the network and the degree distributions. Also, comparisons are being made of given
 input network with other well known complex networks as Erdos-Renyi and Small-World networks.
 
-@author: Michail Liarmakopoulos
+@author: Michail Liarmakopoulos (unless stated otherwise)
 
 Example run:
     python3 model_cretan_road_network.py type_of_network
 
 Prerequisities:
-    networkx, matplotlib
+    networkx, matplotlib,numpy, scipy
 """
 
 import networkx as nx
 import matplotlib.pyplot as plt
+from matplotlib import pyplot, patches
+import scipy as sp
+import numpy as np
 import sys
 
 def parse_edges(input_filename):
@@ -28,6 +31,14 @@ def parse_edges(input_filename):
             list_of_edges.append(line)
     return list_of_edges
 
+def parse_node_names(input_filename):
+    with open(input_filename, 'r') as handle:
+        dict_of_nodes = dict()
+        for line in handle: 
+            line = line.rstrip('\n')
+            line = line.split('\t')
+            dict_of_nodes[int(line[0])] = line[1]
+    return dict_of_nodes
 
 def create_network(list_of_edges):
     G = nx.Graph()
@@ -73,6 +84,47 @@ def print_network_options():
     print("shell")
     print("Type: python3 model_cretan_road_network.py type_of_network")
 
+def degrees_per_node(G):
+    return nx.degree(G)
+
+
+def draw_adjacency_matrix(G, node_order=None, partitions=[], colors=[]):
+    """
+    From : http://sociograph.blogspot.com/2012/11/visualizing-adjacency-matrices-in-python.html
+    - G is a netorkx graph
+    - node_order (optional) is a list of nodes, where each node in G
+          appears exactly once
+    - partitions is a list of node lists, where each node in G appears
+          in exactly one node list
+    - colors is a list of strings indicating what color each
+          partition should be
+    If partitions is specified, the same number of colors needs to be
+    specified.
+    """
+    adjacency_matrix = nx.to_numpy_matrix(G, dtype=np.bool, nodelist=node_order)
+
+    #Plot adjacency matrix in toned-down black and white
+    fig = pyplot.figure(figsize=(5, 5)) # in inches
+    pyplot.imshow(adjacency_matrix,
+                  cmap="Greys",
+                  interpolation="none")
+    
+    # The rest is just if you have sorted nodes by a partition and want to
+    # highlight the module boundaries
+    assert len(partitions) == len(colors)
+    ax = pyplot.gca()
+    for partition, color in zip(partitions, colors):
+        current_idx = 0
+        for module in partition:
+            ax.add_patch(patches.Rectangle((current_idx, current_idx),
+                                          len(module), # Width
+                                          len(module), # Height
+                                          facecolor="none",
+                                          edgecolor=color,
+                                          linewidth="1"))
+            current_idx += len(module)
+    plt.savefig("images/adjacency_matrix.png")
+
 def main():
     try:
         type_of_network = sys.argv[1]
@@ -82,6 +134,10 @@ def main():
 
     # Parse undirected edges to list of tuples
     list_of_edges = parse_edges("data/crt_edges_wo_weights.txt")
+
+    # Parse names
+    names_dict = parse_node_names("data/crt_vertices_names2.txt")
+    print(names_dict)
 
     # Creation of the network
     G = create_network(list_of_edges)
@@ -104,6 +160,22 @@ def main():
     print("Nodes:",N)
     print("Edges:",K)
     print("Average degree:",avg_deg)
+
+    # Calculate the density of the graph
+    density = nx.density(G)
+    print("Density:",density)
+
+    # Degree histogram
+    dh = nx.degree_histogram(G)
+    print("Degree histogram:",dh)
+
+    # Degrees per node
+    degrees = degrees_per_node(G)
+    print("Degrees per node:",degrees)
+
+    # Adjacency matrix
+    #adjacency_mat = nx.adjacency_matrix(G).todense()
+    draw_adjacency_matrix(G)
 
 if __name__ == "__main__":
     main()
