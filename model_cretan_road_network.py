@@ -330,16 +330,16 @@ def main():
     diameter_ER2 = nx.algorithms.distance_measures.diameter(erdos_renyi_G2)
     print("Erdos-Renyi_0.5 diameter: ",diameter_ER2)
 
-    # Scale free graph
-    scale_free_G = nx.scale_free_graph(68)
-    draw_network(scale_free_G, "scale_free_", "kamada_kawai")
-    dh_scalefree = nx.degree_histogram(scale_free_G)
-    create_histogram(dh_scalefree, "scale free_")
-    #print(dh_scalefree)
-    degrees_scalefree = degrees_per_node(scale_free_G)
-    #print(degrees_scalefree)
-    plot_degree_distribution(scale_free_G, "scale_free_")
-    draw_adjacency_matrix(scale_free_G, "scale_free_")
+    # # Scale free directed graph
+    # scale_free_G = nx.scale_free_graph(68)
+    # draw_network(scale_free_G, "scale_free_", "kamada_kawai")
+    # dh_scalefree = nx.degree_histogram(scale_free_G)
+    # create_histogram(dh_scalefree, "scale free_")
+    # #print(dh_scalefree)
+    # degrees_scalefree = degrees_per_node(scale_free_G)
+    # #print(degrees_scalefree)
+    # plot_degree_distribution(scale_free_G, "scale_free_")
+    # draw_adjacency_matrix(scale_free_G, "scale_free_")
     # Diameter
     # diameter_scalefree = nx.algorithms.distance_measures.diameter(scale_free_G)
     # print("Scalefree network diameter: ",diameter_scalefree)
