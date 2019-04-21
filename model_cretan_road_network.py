@@ -284,6 +284,7 @@ def main():
     print("Crete diameter: ",diameter)
 
     # Find the biggest hub
+    # From here: https://networkx.github.io/documentation/latest/auto_examples/drawing/plot_ego_graph.html?highlight=hub
     node_and_degree_crete = G.degree()
     (largest_hub_crete, degree_crete) = sorted(node_and_degree_crete, key=itemgetter(1))[-1]
     # Create ego graph of main
