@@ -195,6 +195,14 @@ def draw_adjacency_matrix(G, node_order=None, partitions=[], colors=[]):
     plt.savefig("images/adjacency_matrix.png")
     plt.close()
 
+def create_histogram(G_histogram, output_name):
+    xs = range(len(G_histogram))
+    plt.scatter(xs, G_histogram)
+    plt.xlabel('degree')
+    plt.ylabel('counts')
+    plt.savefig("images/" + output_name + "histogram.png") 
+    plt.close()
+
 def main():
     try:
         type_of_network = sys.argv[1]
@@ -234,6 +242,7 @@ def main():
     # Degree histogram
     dh = nx.degree_histogram(G)
     print("Degree histogram:",dh)
+    create_histogram(dh, "crete_")
 
     # Degrees per node
     degrees = degrees_per_node(G)
@@ -249,17 +258,19 @@ def main():
     draw_network(erdos_renyi_G1, "erdos_renyi_0.1_","circular")
     avg_deg_ER = calculate_average_degree(erdos_renyi_G1)
     dh_ER = nx.degree_histogram(erdos_renyi_G1)
+    create_histogram(dh_ER, "erdos_renyi_0.1_")
     print(dh_ER)
     degrees_ER = degrees_per_node(erdos_renyi_G1)
     print(degrees_ER)
 
     erdos_renyi_G2 = nx.erdos_renyi_graph(68,0.5)
     draw_network(erdos_renyi_G2, "erdos_renyi_0.5_","circular")
-    avg_deg_ER = calculate_average_degree(erdos_renyi_G2)
-    dh_ER = nx.degree_histogram(erdos_renyi_G2)
-    print(dh_ER)
-    degrees_ER = degrees_per_node(erdos_renyi_G2)
-    print(degrees_ER)
+    avg_deg_ER2 = calculate_average_degree(erdos_renyi_G2)
+    dh_ER2 = nx.degree_histogram(erdos_renyi_G2)
+    create_histogram(dh_ER2, "erdos_renyi_0.5_")
+    print(dh_ER2)
+    degrees_ER2 = degrees_per_node(erdos_renyi_G2)
+    print(degrees_ER2)
 
 if __name__ == "__main__":
     main()
