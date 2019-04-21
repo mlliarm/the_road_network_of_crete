@@ -21,31 +21,67 @@ import numpy as np
 import sys
 
 def parse_edges(input_filename):
+    """
+    Parses the edges into a pair and returns a list of pairs.
+
+    Args:
+        input_filename (string): a tab delimited input file with the pairs of the nodes that create an edge
+
+    Returns:
+        list_of_edges (list): list with pairs of coded node names
+    """
     with open(input_filename, 'r') as handle:
         list_of_edges = list()
         for line in handle:
             line = line.rstrip('\n')
             line = line.split('\t')
-            line = tuple(line)
-            line = (int(line[0]),int(line[1]))
+            line = tuple(line)            
             list_of_edges.append(line)
     return list_of_edges
 
 def parse_node_names(input_filename):
+    """
+    Parses node names and returns a dictionary with the code name as a key and its real name as a value.
+
+    Args:
+        input_filename (string): a tab delimited input file with the pairs of the coded name and real name
+
+    Returns:
+        dict_of_nodes (dictionary): a dictionary with keys the coded name and values the corresponding real name
+    """
     with open(input_filename, 'r') as handle:
         dict_of_nodes = dict()
         for line in handle: 
             line = line.rstrip('\n')
             line = line.split('\t')
-            dict_of_nodes[int(line[0])] = line[1]
+            dict_of_nodes[line[0]] = line[1]
     return dict_of_nodes
 
-def create_network(list_of_edges):
+def create_network_from_edges(list_of_edges):
+    """
+    Creates a network given a list of pairs with the edges.
+
+    Args:
+        list_of_edges (list): the list with the pairs of edges
+
+    Returns:
+        G (graph): the resulting graph/network
+    """
     G = nx.Graph()
     G.add_edges_from(list_of_edges)
     return G
 
 def draw_network(G, type_of_network=None):
+    """
+    Creates a drawing of the network, according to the selected type of network.
+
+    Args:
+        G (graph): the input graph
+        type_of_network (string): the type of network
+
+    Returns:
+        None. Just prints the image to a file into the folder data/
+    """
     if type_of_network == "planar":
         nx.draw_planar(G, with_labels = True)
     elif type_of_network == "circular":
@@ -65,6 +101,15 @@ def draw_network(G, type_of_network=None):
     plt.savefig("images/" + "network_" + str(type_of_network) + ".png")
 
 def calculation_of_centrality_measures(G):
+    """
+    Calculates the centrality measures for a given graph G.
+
+    Args:
+        G (graph): input graph
+
+    Returns:
+        (DC, CC, BC, EC, HC, PC) (tuple): a tuple with the resulting centrality measures
+    """
     DC = nx.algorithms.degree_centrality(G)
     CC = nx.algorithms.closeness_centrality(G)
     BC = nx.algorithms.betweenness_centrality(G)
@@ -74,6 +119,9 @@ def calculation_of_centrality_measures(G):
     return (DC, CC, BC, EC, HC, PC)
 
 def print_network_options():
+    """
+    Prints the options for the drawing function when run from console.
+    """
     print("Please insert type of network from the below:")
     print("planar")
     print("circular")
@@ -85,6 +133,16 @@ def print_network_options():
     print("Type: python3 model_cretan_road_network.py type_of_network")
 
 def degrees_per_node(G):
+    """
+    Calculates the degrees per each node.
+
+    Args:
+        G (graph): input graph G
+
+    Returns:
+        nx.degree(G) (list): a list with tuples where each tuple has as first value the code name of the network
+                             and as second the degree number
+    """
     return nx.degree(G)
 
 
@@ -140,7 +198,7 @@ def main():
     print(names_dict)
 
     # Creation of the network
-    G = create_network(list_of_edges)
+    G = create_network_from_edges(list_of_edges)
 
     # Calculation of centrality measures
     DC, CC, BC, EC, HC, PC = calculation_of_centrality_measures(G)
