@@ -75,7 +75,7 @@ def create_network_from_edges(list_of_edges: List[Tuple[str, str]]) -> nx.classe
     G.add_edges_from(list_of_edges)
     return G
 
-Graph: nx.classes.graph.Graph
+Graph = nx.classes.graph.Graph
 def draw_network(G: Graph, output_name: str, type_of_network: str=None) -> None:
     """
     Creates a drawing of the network, according to the selected type of network.
