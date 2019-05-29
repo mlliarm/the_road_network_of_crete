@@ -109,6 +109,13 @@ def draw_network(G: Graph, output_name: str, type_of_network: str=None) -> None:
 
 
 def draw_ego_hub(G: Graph, output_name: str) -> None:
+    """
+    Draws the ego hub.
+
+    Args:
+        G (Graph): the input graph
+        output_name (string): the output file name
+    """
     # From https://networkx.github.io/documentation/latest/auto_examples/drawing/plot_ego_graph.html?highlight=hub
     node_and_degree = G.degree()
     (largest_hub, degree) = sorted(node_and_degree, key=itemgetter(1))[-1]
