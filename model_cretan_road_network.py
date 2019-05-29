@@ -20,8 +20,9 @@ import scipy as sp
 import numpy as np
 from operator import itemgetter
 import sys
+from typing import List, Tuple, Dict
 
-def parse_edges(input_filename):
+def parse_edges(input_filename: str) -> List[Tuple[str, str]]:
     """
     Parses the edges into a pair and returns a list of pairs.
 
@@ -36,11 +37,12 @@ def parse_edges(input_filename):
         for line in handle:
             line = line.rstrip('\n')
             line = line.split('\t')
-            line = tuple(line)            
+            line = tuple(line)
             list_of_edges.append(line)
     return list_of_edges
 
-def parse_node_names(input_filename):
+
+def parse_node_names(input_filename: str) -> Dict[str, str]:
     """
     Parses node names and returns a dictionary with the code name as a key and its real name as a value.
 
@@ -52,13 +54,14 @@ def parse_node_names(input_filename):
     """
     with open(input_filename, 'r') as handle:
         dict_of_nodes = dict()
-        for line in handle: 
+        for line in handle:
             line = line.rstrip('\n')
             line = line.split('\t')
             dict_of_nodes[line[0]] = line[1]
     return dict_of_nodes
 
-def create_network_from_edges(list_of_edges):
+
+def create_network_from_edges(list_of_edges: List[Tuple[str, str]]) -> nx.classes.graph.Graph:
     """
     Creates a network given a list of pairs with the edges.
 
@@ -72,7 +75,8 @@ def create_network_from_edges(list_of_edges):
     G.add_edges_from(list_of_edges)
     return G
 
-def draw_network(G, output_name, type_of_network=None):
+
+def draw_network(G: nx.classes.graph.Graph, output_name: str, type_of_network: str=None) -> None:
     """
     Creates a drawing of the network, according to the selected type of network.
 
@@ -103,7 +107,8 @@ def draw_network(G, output_name, type_of_network=None):
     plt.savefig("images/" + output_name + "network_" + str(type_of_network) + ".png")
     plt.close()
 
-def draw_ego_hub(G, output_name):
+
+def draw_ego_hub(G: nx.classes.graph.Graph, output_name: str) -> None:
     # From https://networkx.github.io/documentation/latest/auto_examples/drawing/plot_ego_graph.html?highlight=hub
     node_and_degree = G.degree()
     (largest_hub, degree) = sorted(node_and_degree, key=itemgetter(1))[-1]
@@ -117,7 +122,8 @@ def draw_ego_hub(G, output_name):
     plt.savefig("images/" + output_name + "ego_hub.png")
     plt.close()
 
-def calculation_of_centrality_measures(G):
+
+def calculation_of_centrality_measures(G: nx.classes.graph.Graph) -> Tuple[float, float, float, float, float, float]:
     """
     Calculates the centrality measures for a given graph G.
 
@@ -135,7 +141,8 @@ def calculation_of_centrality_measures(G):
     PC = nx.algorithms.pagerank(G)
     return (DC, CC, BC, EC, HC, PC)
 
-def print_network_options():
+
+def print_network_options() -> None:
     """
     Prints the options for the drawing function when run from console.
     """
@@ -149,7 +156,8 @@ def print_network_options():
     print("shell")
     print("Type: python3 model_cretan_road_network.py type_of_network")
 
-def degrees_per_node(G):
+
+def degrees_per_node(G: nx.classes.graph.Graph) -> List[Tuple[str, float]]:
     """
     Calculates the degrees per each node.
 
@@ -163,7 +171,7 @@ def degrees_per_node(G):
     return nx.degree(G)
 
 
-def calculate_average_degree(G):
+def calculate_average_degree(G: nx.classes.graph.Graph) -> float:
     N, K = G.order(), G.size()
     avg_deg = float(K)/N
     print("Nodes:",N)
@@ -172,7 +180,7 @@ def calculate_average_degree(G):
     return avg_deg
 
 
-def draw_adjacency_matrix(G, output_name, node_order=None, partitions=[], colors=[]):
+def draw_adjacency_matrix(G: nx.classes.graph.Graph, output_name: str, node_order=None, partitions=[], colors=[]) -> None:
     """
     From : http://sociograph.blogspot.com/2012/11/visualizing-adjacency-matrices-in-python.html
     - G is a netorkx graph
@@ -192,9 +200,11 @@ def draw_adjacency_matrix(G, output_name, node_order=None, partitions=[], colors
     pyplot.imshow(adjacency_matrix,
                   cmap="Greys",
                   interpolation="none")
-    
+
     # The rest is just if you have sorted nodes by a partition and want to
     # highlight the module boundaries
+    print('partitions:', partitions)
+    print('node_order:', node_order)
     assert len(partitions) == len(colors)
     ax = pyplot.gca()
     for partition, color in zip(partitions, colors):
@@ -210,7 +220,8 @@ def draw_adjacency_matrix(G, output_name, node_order=None, partitions=[], colors
     plt.savefig("images/" + output_name + "_adjacency_matrix.png")
     plt.close()
 
-def create_histogram(G_histogram, output_name):
+
+def create_histogram(G_histogram: List[int], output_name: str) -> None:
     """
     Inspired by: https://www3.nd.edu/~kogge/courses/cse60742-Fall2018/Public/StudentWork/Paradigms/NetworkX-Sikdar.pdf
     """
@@ -218,14 +229,15 @@ def create_histogram(G_histogram, output_name):
     plt.scatter(xs, G_histogram)
     plt.xlabel('degree')
     plt.ylabel('counts')
-    plt.savefig("images/" + output_name + "histogram.png") 
+    plt.savefig("images/" + output_name + "histogram.png")
     plt.close()
 
-def plot_degree_distribution(G,output_name):
+
+def plot_degree_distribution(G: nx.classes.graph.Graph, output_name: str) -> None:
     """
     Taken from: http://snap.stanford.edu/class/cs224w-2012/nx_tutorial.pdf
     """
-    degs = {}
+    degs: Dict[int, int] = {}
     for n in G.nodes():
         deg = G.degree(n)
         if deg not in degs:
@@ -241,11 +253,12 @@ def plot_degree_distribution(G,output_name):
     fig.savefig("images/" + output_name + "degree_distribution.png")
     plt.close()
 
+
 def main():
     try:
         type_of_network = sys.argv[1]
     except IndexError:
-        print_network_options()        
+        print_network_options()
         return [0, "IndexError"]
 
     # Parse undirected edges to list of tuples
@@ -268,7 +281,7 @@ def main():
     print(nx.info(G))
 
     # Draw network
-    #draw_network(G, "crete", type_of_network)    
+    #draw_network(G, "crete", type_of_network)
 
     # Average degree
     avg_deg = calculate_average_degree(G)
@@ -280,6 +293,8 @@ def main():
     # Degree histogram
     dh = nx.degree_histogram(G)
     #print("Degree histogram:",dh)
+    print('dh type:', type(dh))
+    print('dh:',dh)
     create_histogram(dh, "crete_")
 
     # Degrees per node
@@ -298,7 +313,7 @@ def main():
     print("Crete diameter: ",diameter)
 
     # Find the biggest hub
-    draw_ego_hub(G, "crete_")    
+    draw_ego_hub(G, "crete_")
 
     # Creation of some random graphs
     # Erdos Renyi
