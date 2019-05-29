@@ -172,6 +172,15 @@ def degrees_per_node(G: Graph) -> List[Tuple[str, float]]:
 
 
 def calculate_average_degree(G: Graph) -> float:
+    """
+    Calculates the average degree of a graph G.
+
+    Args:
+        G (Graph): the input graph
+
+    Returns:
+        avg_deg (float): the average degree of the graph
+    """
     N, K = G.order(), G.size()
     avg_deg = float(K)/N
     print("Nodes:",N)
@@ -183,13 +192,18 @@ def calculate_average_degree(G: Graph) -> float:
 def draw_adjacency_matrix(G: Graph, output_name: str, node_order=None, partitions=[], colors=[]) -> None:
     """
     From : http://sociograph.blogspot.com/2012/11/visualizing-adjacency-matrices-in-python.html
-    - G is a netorkx graph
-    - node_order (optional) is a list of nodes, where each node in G
-          appears exactly once
-    - partitions is a list of node lists, where each node in G appears
-          in exactly one node list
-    - colors is a list of strings indicating what color each
-          partition should be
+
+    Creates the adjacency matrix and saves the image to file.
+
+    Args:
+        G (Graph): the input networkx graph
+        node_order (optional): list of nodes, where each node in G
+                                appears exactly once
+        partitions (list): list of node lists, where each node in G appears
+                           in exactly one node list
+        colors (list): list of strings indicating what color each
+                        partition should be
+
     If partitions is specified, the same number of colors needs to be
     specified.
     """
@@ -224,6 +238,12 @@ def draw_adjacency_matrix(G: Graph, output_name: str, node_order=None, partition
 def create_histogram(G_histogram: List[int], output_name: str) -> None:
     """
     Inspired by: https://www3.nd.edu/~kogge/courses/cse60742-Fall2018/Public/StudentWork/Paradigms/NetworkX-Sikdar.pdf
+
+    Creates histogram.
+
+    Args:
+        G_histogram (list): the input histogram data for the graph G
+        output_name (string): the output file name
     """
     xs = range(len(G_histogram))
     plt.scatter(xs, G_histogram)
@@ -236,6 +256,12 @@ def create_histogram(G_histogram: List[int], output_name: str) -> None:
 def plot_degree_distribution(G: Graph, output_name: str) -> None:
     """
     Taken from: http://snap.stanford.edu/class/cs224w-2012/nx_tutorial.pdf
+
+    Plots degree distribution of input graph.
+
+    Args:
+        G (Graph): the input graph
+        output_name (string): the output file name
     """
     degs: Dict[int, int] = {}
     for n in G.nodes():
