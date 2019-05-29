@@ -75,8 +75,8 @@ def create_network_from_edges(list_of_edges: List[Tuple[str, str]]) -> nx.classe
     G.add_edges_from(list_of_edges)
     return G
 
-
-def draw_network(G: nx.classes.graph.Graph, output_name: str, type_of_network: str=None) -> None:
+Graph: nx.classes.graph.Graph
+def draw_network(G: Graph, output_name: str, type_of_network: str=None) -> None:
     """
     Creates a drawing of the network, according to the selected type of network.
 
@@ -108,7 +108,7 @@ def draw_network(G: nx.classes.graph.Graph, output_name: str, type_of_network: s
     plt.close()
 
 
-def draw_ego_hub(G: nx.classes.graph.Graph, output_name: str) -> None:
+def draw_ego_hub(G: Graph, output_name: str) -> None:
     # From https://networkx.github.io/documentation/latest/auto_examples/drawing/plot_ego_graph.html?highlight=hub
     node_and_degree = G.degree()
     (largest_hub, degree) = sorted(node_and_degree, key=itemgetter(1))[-1]
@@ -123,7 +123,7 @@ def draw_ego_hub(G: nx.classes.graph.Graph, output_name: str) -> None:
     plt.close()
 
 
-def calculation_of_centrality_measures(G: nx.classes.graph.Graph) -> Tuple[float, float, float, float, float, float]:
+def calculation_of_centrality_measures(G: Graph) -> Tuple[float, float, float, float, float, float]:
     """
     Calculates the centrality measures for a given graph G.
 
@@ -157,7 +157,7 @@ def print_network_options() -> None:
     print("Type: python3 model_cretan_road_network.py type_of_network")
 
 
-def degrees_per_node(G: nx.classes.graph.Graph) -> List[Tuple[str, float]]:
+def degrees_per_node(G: Graph) -> List[Tuple[str, float]]:
     """
     Calculates the degrees per each node.
 
@@ -171,7 +171,7 @@ def degrees_per_node(G: nx.classes.graph.Graph) -> List[Tuple[str, float]]:
     return nx.degree(G)
 
 
-def calculate_average_degree(G: nx.classes.graph.Graph) -> float:
+def calculate_average_degree(G: Graph) -> float:
     N, K = G.order(), G.size()
     avg_deg = float(K)/N
     print("Nodes:",N)
@@ -180,7 +180,7 @@ def calculate_average_degree(G: nx.classes.graph.Graph) -> float:
     return avg_deg
 
 
-def draw_adjacency_matrix(G: nx.classes.graph.Graph, output_name: str, node_order=None, partitions=[], colors=[]) -> None:
+def draw_adjacency_matrix(G: Graph, output_name: str, node_order=None, partitions=[], colors=[]) -> None:
     """
     From : http://sociograph.blogspot.com/2012/11/visualizing-adjacency-matrices-in-python.html
     - G is a netorkx graph
@@ -233,7 +233,7 @@ def create_histogram(G_histogram: List[int], output_name: str) -> None:
     plt.close()
 
 
-def plot_degree_distribution(G: nx.classes.graph.Graph, output_name: str) -> None:
+def plot_degree_distribution(G: Graph, output_name: str) -> None:
     """
     Taken from: http://snap.stanford.edu/class/cs224w-2012/nx_tutorial.pdf
     """
