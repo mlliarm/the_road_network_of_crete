@@ -6,7 +6,7 @@ In this project we've constructed the road network of the biggest Greek island, 
 
 The images produced from the cretan network and of the Erdos-Renyi network, suggest that the cretan network is not a random network.
 
-## Package dependencies
+## Dependencies
 * python3
 * networkx
 * matplotlib
