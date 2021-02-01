@@ -20,7 +20,9 @@ import scipy as sp
 import numpy as np
 from operator import itemgetter
 import sys
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Optional
+
+Graph = nx.classes.graph.Graph
 
 def parse_edges(input_filename: str) -> List[Tuple[str, str]]:
     """
@@ -61,7 +63,7 @@ def parse_node_names(input_filename: str) -> Dict[str, str]:
     return dict_of_nodes
 
 
-def create_network_from_edges(list_of_edges: List[Tuple[str, str]]) -> nx.classes.graph.Graph:
+def create_network_from_edges(list_of_edges: List[Tuple[str, str]]) -> Graph:
     """
     Creates a network given a list of pairs with the edges.
 
@@ -75,7 +77,6 @@ def create_network_from_edges(list_of_edges: List[Tuple[str, str]]) -> nx.classe
     G.add_edges_from(list_of_edges)
     return G
 
-Graph = nx.classes.graph.Graph
 def draw_network(G: Graph, output_name: str, type_of_network: str=None) -> None:
     """
     Creates a drawing of the network, according to the selected type of network.
@@ -287,7 +288,7 @@ def plot_degree_distribution(G: Graph, output_name: str) -> None:
     plt.close()
 
 
-def main() -> None:
+def main() -> Optional[list]:
     try:
         type_of_network = sys.argv[1]
     except IndexError:
