@@ -197,7 +197,7 @@ def calculate_average_degree(G: Graph) -> float:
     return avg_deg
 
 
-def draw_adjacency_matrix(G: Graph, output_name: str, node_order=None, partitions=[], colors=[]) -> None:
+def draw_adjacency_matrix(G: Graph, output_name: str, node_order: list=None, partitions: list=[], colors: list =[]) -> None:
     """
     From : http://sociograph.blogspot.com/2012/11/visualizing-adjacency-matrices-in-python.html
 
