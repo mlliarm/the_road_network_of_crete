@@ -10,7 +10,7 @@ Example run:
     python3 model_cretan_road_network.py type_of_network
 
 Prerequisities:
-    networkx, matplotlib,numpy, scipy
+    networkx, matplotlib, numpy, scipy
 """
 
 import networkx as nx
