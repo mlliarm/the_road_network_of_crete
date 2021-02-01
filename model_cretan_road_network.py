@@ -215,7 +215,7 @@ def draw_adjacency_matrix(G: Graph, output_name: str, node_order: list=None, par
     If partitions is specified, the same number of colors needs to be
     specified.
     """
-    adjacency_matrix = nx.to_numpy_matrix(G, dtype=np.bool, nodelist=node_order)
+    adjacency_matrix = nx.to_numpy_matrix(G, dtype=bool, nodelist=node_order)
 
     #Plot adjacency matrix in toned-down black and white
     fig = pyplot.figure(figsize=(5, 5)) # in inches
@@ -315,7 +315,7 @@ def main() -> Optional[list]:
     print(nx.info(G))
 
     # Draw network
-    #draw_network(G, "crete", type_of_network)
+    draw_network(G, "crete", type_of_network)
 
     # Average degree
     avg_deg = calculate_average_degree(G)
