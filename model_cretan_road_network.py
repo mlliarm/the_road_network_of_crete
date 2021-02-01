@@ -287,7 +287,7 @@ def plot_degree_distribution(G: Graph, output_name: str) -> None:
     plt.close()
 
 
-def main():
+def main() -> None:
     try:
         type_of_network = sys.argv[1]
     except IndexError:
